@@ -14,16 +14,18 @@ def getPort():
     return commPort
 
 def readSerial():
+    ser.write("GET#");
     bytesToRead = ser.inWaiting()
-    if (bytesToRead > 0):
-        mess = ser.read(bytesToRead).decode("UTF-8")
-        start = mess.find("!")
-        end = mess.find("#")
-        g.data = mess[start:end+1]
-        mess = ""
-        return True
-    else:
-        return False
+    while bytesToRead <= 0:
+        bytesToRead = ser.inWaiting()
+    mess = ser.read(bytesToRead).decode("UTF-8")
+    start = mess.find("!")
+    end = mess.find("#")
+    g.data = mess[start:end+1]
+    mess = ""
+
+def writeSerial(message):
+    ser.write(message)
 
 if getPort() != "None":
     portName = getPort()
@@ -31,3 +33,4 @@ if getPort() != "None":
     print("Connected with " + portName)
     print("Connect port successfully!")
     g.isComConnect = True
+    

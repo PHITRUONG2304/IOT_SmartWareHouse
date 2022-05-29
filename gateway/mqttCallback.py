@@ -1,6 +1,7 @@
 import sys
 from aio_config import *
 import globals as g
+from readSerial import *
 
 
 def connected(client):
@@ -27,6 +28,13 @@ def message(client, feed_id, payload):
     if feed_id == FEED_TEMP or feed_id == FEED_HUMIDITY or feed_id == FEED_LIGHT or feed_id == FEED_GAS:
         g.lastSentOK = True
         print(feed_id + " received ACK: " + payload)
+    elif feed_id == FEED_LED:
+        writeSerial("C_LED:"+payload)
+    elif feed_id == FEED_CONDITION:
+        writeSerial("C_CONDITION:"+payload)
+    elif feed_id == FEED_DOOR:
+        writeSerial("C_DOOR:"+payload)
+        
 
 # data: !1;TEMP:20;HUMI:30;LIGHT:300;GAS:20#
 def publishData(data, flagSendAgain):
