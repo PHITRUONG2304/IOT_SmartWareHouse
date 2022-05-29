@@ -1,6 +1,6 @@
 from Adafruit_IO import MQTTClient
 AIO_USERNAME = "truongtruong230401"
-AIO_KEY = "aio_AENI19Up06KYicmVUfFgT7a80QU7"
+AIO_KEY = "abcxyz"
 
 FEED_TEMP = "smart-warehouse.bbc-temp"
 FEED_HUMIDITY = "smart-warehouse.bbc-humi"
