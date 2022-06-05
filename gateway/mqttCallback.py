@@ -10,6 +10,9 @@ def connected(client):
     client.subscribe(FEED_HUMIDITY)
     client.subscribe(FEED_LIGHT)
     client.subscribe(FEED_GAS)
+    client.subscribe(FEED_CONDITION)
+    client.subscribe(FEED_LED)
+    client.subscribe(FEED_DOOR)
 
 
 def subscribe(client, userdata, mid, granted_qos):
@@ -29,11 +32,14 @@ def message(client, feed_id, payload):
         g.lastSentOK = True
         print(feed_id + " received ACK: " + payload)
     elif feed_id == FEED_LED:
-        writeSerial("C_LED:"+payload)
+        print("!C_LED:"+payload+"#")
+        writeSerial("!C_LED:"+ payload + "#")
     elif feed_id == FEED_CONDITION:
-        writeSerial("C_CONDITION:"+payload)
+        print("!C_CONDITION:"+payload+"#")
+        writeSerial("!C_CONDITION:"+payload + "#")
     elif feed_id == FEED_DOOR:
-        writeSerial("C_DOOR:"+payload)
+        print("!C_DOOR"+payload+"#")
+        writeSerial("!C_DOOR:"+payload + "#")
         
 
 # data: !1;TEMP:20;HUMI:30;LIGHT:300;GAS:20#
@@ -44,7 +50,7 @@ def publishData(data, flagSendAgain):
     for i in range(1, len(splitData)):
         splitData[i] = splitData[i].split(":")
     if not flagSendAgain:
-        print("Publish new: " + str(data))
+        print("Publish new: STT:" + str(data))
      
     for element in splitData:
         if len(element) > 1:

@@ -12,7 +12,7 @@ def main():
     client.connect()
     client.loop_background()
     
-    isRead = 5000
+    isRead = 500
     timeResend = 0
     numOfResend = 0
     isSleep = False
@@ -23,6 +23,7 @@ def main():
     # sleep(5)
     
     while True:
+        time.sleep(0.001)
         if g.isComConnect:
             if isRead == 0 and g.lastSentOK:
                 if readSerial():
@@ -34,6 +35,9 @@ def main():
                     timeResend = g.TIME_TO_RESEND
                     numOfResend = 0
                     numOfSleep = 0
+                else:
+                    if g.readAgain == 0:
+                        g.getData = True
                     
             # resend after g.TIME_TO_RESEND (ms)
             if not g.lastSentOK and timeResend == 0 and not isSleep:
@@ -68,16 +72,17 @@ def main():
                 print("Send data failed. Skip data this time!")
             
             if isRead > 0:
+                # print(isRead, "\n")
                 isRead -= 1
             if timeResend > 0:
                 timeResend -= 1
             if timeSleep > 0:
                 timeSleep -= 1
+            if g.readAgain > 0:
+                g.readAgain -= 1
                 
         else:
             print("None serial port !!!")
-
-        time.sleep(0.001)
 
 
 if __name__ == "__main__":
