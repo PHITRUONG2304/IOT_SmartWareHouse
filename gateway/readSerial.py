@@ -27,6 +27,13 @@ def readSerial():
     if ((start == -1) or (end == -1)):
         return False
     g.data = mess[start:end+1]
+    while(end < bytesToRead - 1):
+        bytesToRead -= end
+        mess = mess[end+1:]
+        start = mess.find("!")
+        end = mess.find("#")
+        g.data += mess[start:end+1]
+        
     print(g.data)
     mess = ""
     g.getData = True

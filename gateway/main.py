@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 from readSerial import *
 from mqttCallback import *
 from aio_config import *
@@ -21,11 +22,15 @@ def main():
     
     # Sleep 5s to connect to Server
     # sleep(5)
-    
+    i = 0
+    now = datetime.now()
+    print(now)
     while True:
-        time.sleep(0.001)
         if g.isComConnect:
+            i += 1
             if isRead == 0 and g.lastSentOK:
+                now = datetime.now()
+                print(now)
                 if readSerial():
                     publishData(g.data, False)
                     isRead = g.TIME_TO_READ
@@ -80,7 +85,7 @@ def main():
                 timeSleep -= 1
             if g.readAgain > 0:
                 g.readAgain -= 1
-                
+            time.sleep(0.001)      
         else:
             print("None serial port !!!")
 
